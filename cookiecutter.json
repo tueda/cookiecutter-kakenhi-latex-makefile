@@ -1,5 +1,49 @@
 {
     "directory_name": "latex-makefile-boilerplate",
-    "document_name": "paper",
+    "latex": [
+        "platex",
+        "uplatex"
+    ],
+    "character_encoding": [
+        "utf",
+        "sjis",
+        "euc"
+    ],
+    "format_type": [
+        "single",
+        "multi"
+    ],
+    "document_type": [
+        "2021_fall/tokusui-1 [20210701] (utf/sjis/euc, single/multi)",
+        "2021_fall/tokusui-2 [20210701] (utf/sjis/euc, single/multi)",
+        "2021_fall/tokusui-3 [20210701] (utf/sjis/euc, single/multi)",
+        "2021_fall/kiban_s [20210701] (utf/sjis/euc, single/multi)",
+        "2021_fall/kiban_a [20210701] (utf/sjis/euc, single/multi)",
+        "2021_fall/kiban_b [20210803] (utf/sjis/euc, single/multi)",
+        "2021_fall/kiban_c [20210804] (utf/sjis/euc, single/multi)",
+        "2021_fall/chousenteki_kaitaku_abst [20210803] (utf/sjis/euc, single/multi)",
+        "2021_fall/chousenteki_kaitaku [20210803] (utf/sjis/euc, single/multi)",
+        "2021_fall/chousenteki_houga_abst [20210803] (utf/sjis/euc, single/multi)",
+        "2021_fall/chousenteki_houga [20210803] (utf/sjis/euc, single/multi)",
+        "2021_fall/wakate [20210804] (utf/sjis/euc, single/multi)",
+        "2021_fall/kokusai_kyoudou_a [20210701] (utf/sjis/euc, single/multi)",
+        "2021_fall/kikoku [20210701] (utf/sjis/euc, single/multi)",
+        "2021_fall/shorei [20210803] (utf/sjis/euc, single/multi)",
+        "2021_fall/gakuhen_a_field [20210820] (utf/sjis/euc, multi)",
+        "2021_fall/gakuhen_a_sokatsu [20210820] (utf/sjis/euc, single/multi)",
+        "2021_fall/gakuhen_a_keikaku [20210820] (utf/sjis/euc, single/multi)",
+        "2021_fall/gakuhen_b_abst [20210820] (utf/sjis/euc, single/multi)",
+        "2021_fall/gakuhen_b_field [20210820] (utf/sjis/euc, single/multi)",
+        "2021_fall/gakuhen_b_sokatsu [20210820] (utf/sjis/euc, single/multi)",
+        "2021_fall/gakuhen_b_keikaku [20210820] (utf/sjis/euc, single/multi)",
+        "2021_fall/shingaku_koubo [20210820] (utf/sjis/euc, single/multi)",
+        "2021_fall/shingaku_fin [20210820] (utf/sjis/euc, single/multi)",
+        "2021_spring/dc [20210216] (utf/sjis/euc, single/multi)",
+        "2021_spring/pd [20210216] (utf/sjis/euc, single/multi)",
+        "2021_spring/rpd [20210212] (utf/sjis/euc, single/multi)",
+        "2021_spring/orf [20210203] (utf/sjis/euc, single/multi)",
+        "2021_spring/rra [20210203] (utf/sjis/euc, single/multi)",
+        "2021_spring/wakate_kaigai_1 [20210806] (utf/sjis/euc, single/multi)"
+    ],
     "_makefile_version": "0.8.0"
 }
