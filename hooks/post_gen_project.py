@@ -5,10 +5,11 @@ try:
 except ImportError:
     TYPE_CHECKING = False
 
+import os
 import subprocess
 
 if TYPE_CHECKING:
-    from typing import Optional
+    from typing import Optional, Sequence
 
 if "which" not in dir(shutil):
     # Simplified implementation of shutil.which for Python < 3.3.
@@ -29,6 +30,23 @@ if "which" not in dir(shutil):
 
     shutil.which = __which  # type: ignore[assignment]
 
+
 if shutil.which("git"):
     subprocess.call(["git", "init"])
-    subprocess.call(["git", "add", "."])
+    for dirpath, dirnames, filenames in os.walk("."):
+        if ".git" in dirpath:
+            continue
+        for f in filenames:
+            if any(
+                name in f
+                for name in (
+                    ".DS_Store",
+                    "A_README",
+                    "blahblah",
+                    "egg",
+                    "jack_pub",
+                    "seagull",
+                )
+            ):
+                continue
+            subprocess.call(["git", "add", "-f", os.path.join(dirpath, f)])

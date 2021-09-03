@@ -48,6 +48,8 @@ def patch_tex_file(filename):  # type: (str) -> None
             line = comment_out(line, not use_platex)
         elif "for uplatex" in line:
             line = comment_out(line, not use_uplatex)
+        elif "only for demonstration" in line and "egg" not in filename:
+            line = comment_out(line, True)
         output_lines.append(line)
 
     if input_lines != output_lines:
