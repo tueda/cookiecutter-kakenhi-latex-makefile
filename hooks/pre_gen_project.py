@@ -12,8 +12,8 @@ doc_date = raw_doc_type.split(" ")[1][1:-1]
 doc_enc = "{{cookiecutter.character_encoding}}"
 doc_fmt = "{{cookiecutter.format_type}}"
 
-use_platex = "{{cookiecutter.latex}}" == "platex"
-use_uplatex = "{{cookiecutter.latex}}" == "uplatex"
+use_platex = "{{cookiecutter.latex}}" == "platex"  # type: ignore[comparison-overlap]
+use_uplatex = "{{cookiecutter.latex}}" == "uplatex"  # type: ignore[comparison-overlap]
 
 zip_url = f"http://osksn2.hep.sci.osaka-u.ac.jp/~taku/kakenhiLaTeX/{doc_type}_{doc_enc}_{doc_fmt}_{doc_date}.zip"
 
@@ -28,7 +28,7 @@ for f in os.listdir(tempdir):
         shutil.copy2(src, dest)
 
 
-def comment_out(line, disabled=True):
+def comment_out(line, disabled=True):  # type: (str, bool) -> str
     if disabled:
         if line[:1] != "%":
             line = "%" + line
@@ -38,7 +38,7 @@ def comment_out(line, disabled=True):
     return line
 
 
-def patch_tex_file(filename):
+def patch_tex_file(filename):  # type: (str) -> None
     with open(filename, "r") as f:
         input_lines = f.read().splitlines()
 
