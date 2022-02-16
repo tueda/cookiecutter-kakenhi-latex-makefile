@@ -2,3 +2,7 @@ CmdLine
 {
     -H0 -n3 -n8 -n24 -n38
 }
+Silent
+{
+    \itshape
+}
