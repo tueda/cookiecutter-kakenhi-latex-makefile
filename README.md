@@ -43,3 +43,21 @@ If you know how to embed fonts into PDF files via divpdfmx on your system, then 
 If this is rather difficult, then I recommend to use the [`pxchfon`](https://github.com/zr-tex8r/PXchfon) package.
 Or, you may try [this](https://github.com/tueda/makefile4latex/wiki#embedding-ipaex-fonts) or
 [this](https://github.com/tueda/makefile4latex/wiki#embedding-ms-fonts-on-wslcygwin).
+
+
+Contributing
+------------
+
+If you find the "document_type" shown by this project template is not up-to-date,
+then please consider opening an issue in the repository (if not yet reported).
+Or even better to create a pull request as follows:
+
+1. Fork this repository and clone the forked repository.
+
+2. In the cloned source directory, run `python3 ./scripts/update_context.py`,
+   which (hopefully) updates the `document_type` in `cookiecutter.json`.
+
+3. Commit the change with a message like `update document_type (20YY-MM-DD)`.
+   Push it and create a pull request.
+
+Of course, other types of suggestions and questions are also welcome.
