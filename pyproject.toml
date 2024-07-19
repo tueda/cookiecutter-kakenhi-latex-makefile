@@ -10,9 +10,12 @@ target-version = "py37"
 [tool.ruff.lint]
 select = ["ALL"]
 ignore = [
-    "D203",  # pydocstyle, one-blank-line-before-class
-    "D213",  # pydocstyle, multi-line-summary-second-line
-    "ANN",  # flake8-annotations
-    "INP",  # flake8-no-pep420
-    "PTH",  # flake8-use-pathlib
+    "D203",   # pydocstyle, one-blank-line-before-class
+    "D213",   # pydocstyle, multi-line-summary-second-line
+    "ANN",    # flake8-annotations
+    "EXE003", # shebang-missing-python
+    "INP",    # flake8-no-pep420
+    "PTH",    # flake8-use-pathlib
+    "T201",   # print
+    "TRY003", # raise-vanilla-args
 ]

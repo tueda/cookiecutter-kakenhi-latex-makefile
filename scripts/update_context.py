@@ -13,18 +13,23 @@ from pathlib import Path
 from typing import Sequence
 from urllib.request import urlopen
 
-__doc__ = """Update the cookiecutter context variables."""
+__doc__ = """Update the cookiecutter context variables."""  # noqa: A001
 
 KAKENHI_LATEX_URL = "http://osksn2.hep.sci.osaka-u.ac.jp/~taku/kakenhiLaTeX/"
 
 
 class DocumentType:
+    """Document type."""
+
     def __init__(self, zipname: str) -> None:
+        """Construct a document type."""
         m = re.match(
-            r"(\d{4}[^\"/]*\/[^\"]*)_(utf|sjis|euc)_(single|multi)_(\d+)\.zip", zipname
+            r"(\d{4}[^\"/]*\/[^\"]*)_(utf|sjis|euc)_(single|multi)_(\d+)\.zip",
+            zipname,
         )
         if m is None:
-            raise ValueError(f"unexpected zipname: {zipname}")
+            msg = f"unexpected zipname: {zipname}"
+            raise ValueError(msg)
 
         self.prefix = m.group(1)
         self.encoding = m.group(2)
@@ -33,19 +38,24 @@ class DocumentType:
         self.zipname_valid = True
 
         if self.zipname != zipname:
-            raise ValueError(f"failed to reconstruct zipname: {zipname}")
+            msg = f"failed to reconstruct zipname: {zipname}"
+            raise ValueError(msg)
 
     @property
     def zipname(self) -> str:
+        """Return the ZIP file name."""
         if not self.zipname_valid:
-            raise ValueError("don't have a valid zipname")
+            msg = "don't have a valid zipname"
+            raise ValueError(msg)
         return f"{self.prefix}_{self.encoding}_{self.format}_{self.date}.zip"
 
     @property
     def name(self) -> str:
+        """Return the name."""
         return f"{self.prefix} [{self.date}] ({self.encoding}, {self.format})"
 
     def join(self, other: DocumentType) -> bool:
+        """Try to join another document type."""
         if self.prefix != other.prefix:
             return False
         if self.date != other.date:
@@ -66,6 +76,7 @@ class DocumentType:
 
 
 def update_context(filename: str, doc_types: Sequence[DocumentType]) -> None:
+    """Update the context variables."""
     path = Path(filename)
 
     input_lines = path.read_text().splitlines()
@@ -75,6 +86,8 @@ def update_context(filename: str, doc_types: Sequence[DocumentType]) -> None:
     skipping = False
     inserted = False
 
+    indentation = "  "
+
     # This code assumes "document_type: [" and "]," are in different lines.
     for line in input_lines:
         if not skipping:
@@ -82,19 +95,15 @@ def update_context(filename: str, doc_types: Sequence[DocumentType]) -> None:
                 skipping = True
             else:
                 output_lines.append(line)
-        else:
-            if "]," in line:
-                skipping = False
-                if not inserted:
-                    inserted = True
-                    output_lines.append('    "document_type": [')
-                    for i, dt in enumerate(doc_types):
-                        if i == len(doc_types) - 1:
-                            sep = ""
-                        else:
-                            sep = ","
-                        output_lines.append(f'        "{dt.name}"{sep}')
-                    output_lines.append("    ],")
+        elif "]," in line:
+            skipping = False
+            if not inserted:
+                inserted = True
+                output_lines.append(f'{indentation}"document_type": [')
+                for i, dt in enumerate(doc_types):
+                    sep = "," if i < len(doc_types) - 1 else ""
+                    output_lines.append(f'{indentation * 2}"{dt.name}"{sep}')
+                output_lines.append(f"{indentation}],")
 
     if input_lines != output_lines:
         print(f"update {path}")
@@ -102,12 +111,13 @@ def update_context(filename: str, doc_types: Sequence[DocumentType]) -> None:
 
 
 if __name__ == "__main__":
-    text = urlopen(KAKENHI_LATEX_URL).read().decode("utf-8")
+    text = urlopen(KAKENHI_LATEX_URL).read().decode("utf-8")  # noqa: S310
 
     document_types: list[DocumentType] = []
 
     for s in re.findall(
-        r"\d{4}[^\"/]*\/[^\"]*_(?:utf|sjis|euc)_(?:single|multi)_\d+\.zip", text
+        r"\d{4}[^\"/]*\/[^\"]*_(?:utf|sjis|euc)_(?:single|multi)_\d+\.zip",
+        text,
     ):
         dt1 = DocumentType(s)
         for dt in document_types:
