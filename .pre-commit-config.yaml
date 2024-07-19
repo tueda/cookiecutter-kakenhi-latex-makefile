@@ -1,0 +1,41 @@
+default_install_hook_types: [pre-commit, commit-msg]
+
+repos:
+-   repo: https://github.com/pre-commit/pre-commit-hooks
+    rev: v4.5.0
+    hooks:
+    -   id: check-added-large-files
+    -   id: check-case-conflict
+    -   id: check-json
+    -   id: check-merge-conflict
+    -   id: check-symlinks
+    -   id: check-toml
+    -   id: check-yaml
+    -   id: destroyed-symlinks
+    -   id: end-of-file-fixer
+    -   id: fix-byte-order-marker
+    -   id: mixed-line-ending
+    -   id: trailing-whitespace
+
+-   repo: https://github.com/astral-sh/ruff-pre-commit
+    rev: v0.1.11
+    hooks:
+    -   id: ruff
+        args: [ --fix ]
+    -   id: ruff-format
+
+-   repo: https://github.com/editorconfig-checker/editorconfig-checker.python
+    rev: 2.7.3
+    hooks:
+    -   id: editorconfig-checker
+
+-   repo: https://github.com/pre-commit/mirrors-mypy
+    rev: v1.8.0
+    hooks:
+    -   id: mypy
+        args: []
+
+-   repo: https://github.com/jorisroovers/gitlint
+    rev: v0.19.1
+    hooks:
+    -   id: gitlint

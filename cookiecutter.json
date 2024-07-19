@@ -47,5 +47,5 @@
         "2022_spring/rra [20220202] (utf/sjis/euc, single/multi)",
         "2021_spring/wakate_kaigai_1 [20210806] (utf/sjis/euc, single/multi)"
     ],
-    "_makefile_version": "0.8.0"
+    "_makefile_version": "0.11.1"
 }
