@@ -1,3 +1,5 @@
+"""Script to be run after generating the project."""
+
 import os
 import os.path
 import shutil
@@ -12,13 +14,13 @@ doc_date = raw_doc_type.split(" ")[1][1:-1]
 doc_enc = "{{cookiecutter.character_encoding}}"
 doc_fmt = "{{cookiecutter.format_type}}"
 
-use_platex = "{{cookiecutter.latex}}" == "platex"  # type: ignore[comparison-overlap]
-use_uplatex = "{{cookiecutter.latex}}" == "uplatex"  # type: ignore[comparison-overlap]
+use_platex = "{{cookiecutter.latex}}" == "platex"  # type: ignore[comparison-overlap]  # noqa: PLR0133
+use_uplatex = "{{cookiecutter.latex}}" == "uplatex"  # type: ignore[comparison-overlap]  # noqa: PLR0133
 
 zip_url = f"http://osksn2.hep.sci.osaka-u.ac.jp/~taku/kakenhiLaTeX/{doc_type}_{doc_enc}_{doc_fmt}_{doc_date}.zip"
 
 config_dict = get_user_config()
-tempdir = unzip(zip_url, True, config_dict["cookiecutters_dir"])
+tempdir = unzip(zip_url, is_url=True, clone_to_dir=config_dict["cookiecutters_dir"])
 for f in os.listdir(tempdir):
     src = os.path.join(tempdir, f)
     dest = os.path.join(".", f)
@@ -28,29 +30,33 @@ for f in os.listdir(tempdir):
         shutil.copy2(src, dest)
 
 
-def comment_out(line, disabled=True):  # type: (str, bool) -> str
+def comment_out(line, disabled=True):  # type: (str, bool) -> str  # noqa: FBT002
+    """Comment out or uncomment the given line."""
     if disabled:
         if line[:1] != "%":
             line = "%" + line
-    else:
+    else:  # noqa: PLR5501
         if line[:1] == "%":
             line = line[1:]
     return line
 
 
 def patch_tex_file(filename):  # type: (str) -> None
-    with open(filename, "r") as f:
+    """Patch the TeX file."""
+    with open(filename) as f:
         input_lines = f.read().splitlines()
 
     output_lines = []
     for line in input_lines:
         if "for platex" in line:
-            line = comment_out(line, not use_platex)
+            new_line = comment_out(line, not use_platex)
         elif "for uplatex" in line:
-            line = comment_out(line, not use_uplatex)
+            new_line = comment_out(line, not use_uplatex)
         elif "only for demonstration" in line and "egg" not in filename:
-            line = comment_out(line, True)
-        output_lines.append(line)
+            new_line = comment_out(line)
+        else:
+            new_line = line
+        output_lines.append(new_line)
 
     if input_lines != output_lines:
         with open(filename, "w") as f:

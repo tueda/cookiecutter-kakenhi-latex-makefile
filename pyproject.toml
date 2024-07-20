@@ -4,6 +4,10 @@ show_error_codes = true
 strict = true
 warn_unreachable = true
 
+[[tool.mypy.overrides]]
+module = ["cookiecutter.*"]
+ignore_missing_imports = true
+
 [tool.ruff]
 target-version = "py37"
 
@@ -18,4 +22,6 @@ ignore = [
     "PTH",    # flake8-use-pathlib
     "T201",   # print
     "TRY003", # raise-vanilla-args
+    "COM812", # missing-trailing-comma, conflicts with formatter
+    "ISC001", # single-line-implicit-string-concatenation, conflicts with formatter
 ]

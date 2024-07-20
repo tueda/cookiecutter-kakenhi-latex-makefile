@@ -95,15 +95,16 @@ def update_context(filename: str, doc_types: Sequence[DocumentType]) -> None:
                 skipping = True
             else:
                 output_lines.append(line)
-        elif "]," in line:
-            skipping = False
-            if not inserted:
-                inserted = True
-                output_lines.append(f'{indentation}"document_type": [')
-                for i, dt in enumerate(doc_types):
-                    sep = "," if i < len(doc_types) - 1 else ""
-                    output_lines.append(f'{indentation * 2}"{dt.name}"{sep}')
-                output_lines.append(f"{indentation}],")
+        else:  # noqa: PLR5501
+            if "]," in line:
+                skipping = False
+                if not inserted:
+                    inserted = True
+                    output_lines.append(f'{indentation}"document_type": [')
+                    for i, dt in enumerate(doc_types):
+                        sep = "," if i < len(doc_types) - 1 else ""
+                        output_lines.append(f'{indentation * 2}"{dt.name}"{sep}')
+                    output_lines.append(f"{indentation}],")
 
     if input_lines != output_lines:
         print(f"update {path}")
