@@ -24,6 +24,6 @@ jobs:
           branch: create-pull-request/check-update
           delete-branch: true
           commit-message: |
-            chore: update document_type ({{ env.CURRENT_DATE }})
+            chore: update document_type (${{ env.CURRENT_DATE }})
           title: |
-            [create-pull-request] chore: update document_type ({{ env.CURRENT_DATE }})
+            [create-pull-request] chore: update document_type (${{ env.CURRENT_DATE }})
