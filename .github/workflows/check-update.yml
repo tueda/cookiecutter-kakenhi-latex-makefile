@@ -1,0 +1,29 @@
+name: Check-Update
+
+on:
+  schedule:
+    - cron: 0 3 * * * # daily
+  workflow_dispatch:
+
+jobs:
+  check-update:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout the repository
+        uses: actions/checkout@v4
+
+      - name: Check for updates
+        run: ./scripts/update_context.py
+
+      - name: Get current date
+        run: echo "CURRENT_DATE=$(date +'%Y-%m-%d')" >> $GITHUB_ENV
+
+      - name: Create Pull Request
+        uses: peter-evans/create-pull-request@v6
+        with:
+          branch: create-pull-request/check-update
+          delete-branch: true
+          commit-message: |
+            chore: update document_type ({{ env.CURRENT_DATE }})
+          title: |
+            [create-pull-request] chore: update document_type ({{ env.CURRENT_DATE }})
