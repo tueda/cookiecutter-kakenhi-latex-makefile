@@ -42,7 +42,7 @@ def run_git(*args):
 if shutil.which("git"):
     run_git("init")
     for dirpath, _dirnames, filenames in os.walk("."):
-        if ".git" in dirpath:
+        if any(name in dirpath for name in (".git", "optional_packages")):
             continue
         for f in filenames:
             if any(
