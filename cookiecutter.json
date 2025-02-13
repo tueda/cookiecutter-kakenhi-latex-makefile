@@ -17,7 +17,12 @@
     "2024_fall/ilr-1 [20250109] (utf/sjis/euc, single/multi)",
     "2024_fall/ilr-2 [20250109] (utf/sjis/euc, single/multi)",
     "2024_fall/ilr-3 [20250109] (utf/sjis/euc, single/multi)",
-    "2024_fall/ilr-4 [20250109] (utf/sjis/euc, single/multi)"
+    "2024_fall/ilr-4 [20250109] (utf/sjis/euc, single/multi)",
+    "2025_spring/dc [20250212] (utf/sjis/euc, single/multi)",
+    "2025_spring/pd [20250212] (utf/sjis/euc, single/multi)",
+    "2025_spring/rpd [20250212] (utf/sjis/euc, single/multi)",
+    "2025_spring/orf [20250212] (utf/sjis/euc, single/multi)",
+    "2025_spring/rra [20250212] (utf/sjis/euc, single/multi)"
   ],
   "_makefile_version": "0.11.1"
 }
