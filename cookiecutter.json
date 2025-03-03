@@ -22,7 +22,8 @@
     "2025_spring/pd [20250212] (utf/sjis/euc, single/multi)",
     "2025_spring/rpd [20250212] (utf/sjis/euc, single/multi)",
     "2025_spring/orf [20250212] (utf/sjis/euc, single/multi)",
-    "2025_spring/rra [20250212] (utf/sjis/euc, single/multi)"
+    "2025_spring/rra [20250212] (utf/sjis/euc, single/multi)",
+    "2025_spring/startup [20250303] (utf/sjis/euc, single/multi)"
   ],
   "_makefile_version": "0.11.1"
 }
