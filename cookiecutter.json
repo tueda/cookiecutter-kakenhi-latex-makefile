@@ -14,16 +14,23 @@
     "multi"
   ],
   "document_type": [
-    "2024_fall/ilr-1 [20250109] (utf/sjis/euc, single/multi)",
-    "2024_fall/ilr-2 [20250109] (utf/sjis/euc, single/multi)",
-    "2024_fall/ilr-3 [20250109] (utf/sjis/euc, single/multi)",
-    "2024_fall/ilr-4 [20250109] (utf/sjis/euc, single/multi)",
+    "2025_fall/gakuhen_a_field [20250411] (utf/sjis/euc, multi)",
+    "2025_fall/gakuhen_a_sokatsu [20250411] (utf/sjis/euc, single/multi)",
+    "2025_fall/gakuhen_a_keikaku [20250411] (utf/sjis/euc, single/multi)",
+    "2025_fall/gakuhen_b_abst [20250411] (utf/sjis/euc, single/multi)",
+    "2025_fall/gakuhen_b_field [20250411] (utf/sjis/euc, single/multi)",
+    "2025_fall/gakuhen_b_sokatsu [20250411] (utf/sjis/euc, single/multi)",
+    "2025_fall/gakuhen_b_keikaku [20250411] (utf/sjis/euc, single/multi)",
     "2025_spring/dc [20250212] (utf/sjis/euc, single/multi)",
     "2025_spring/pd [20250212] (utf/sjis/euc, single/multi)",
     "2025_spring/rpd [20250212] (utf/sjis/euc, single/multi)",
     "2025_spring/orf [20250212] (utf/sjis/euc, single/multi)",
     "2025_spring/rra [20250212] (utf/sjis/euc, single/multi)",
-    "2025_spring/startup [20250303] (utf/sjis/euc, single/multi)"
+    "2025_spring/startup [20250303] (utf/sjis/euc, single/multi)",
+    "2025_fall/tokusui-1 [20250411] (utf/sjis/euc, single/multi)",
+    "2025_fall/tokusui-2 [20250411] (utf/sjis/euc, single/multi)",
+    "2025_fall/tokusui-3 [20250411] (utf/sjis/euc, single/multi)",
+    "2025_fall/kiban_s [20250411] (utf/sjis/euc, single/multi)"
   ],
   "_makefile_version": "0.11.1"
 }
