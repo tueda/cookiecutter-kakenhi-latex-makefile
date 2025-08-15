@@ -5,7 +5,7 @@ cookiecutter-kakenhi-latex-makefile
 meets
 [KAKENHI-LaTeX](http://osksn2.hep.sci.osaka-u.ac.jp/~taku/kakenhiLaTeX/).
 
-[科研費LaTeX](https://osksn2.hep.sci.osaka-u.ac.jp/~taku/kakenhiLaTeX/)での申請書作成を、[Cookiecutter](https://github.com/cookiecutter/cookiecutter)で簡単セットアップ
+[科研費LaTeX](https://osksn2.hep.sci.osaka-u.ac.jp/~taku/kakenhiLaTeX/)での申請書作成を[Cookiecutter](https://github.com/cookiecutter/cookiecutter)で簡単に始めましょう。
 
 
 Usage
