@@ -1,0 +1,32 @@
+{
+  {% if cookiecutter.formatter == 'None' %}
+  "[latex]": {
+    "editor.formatOnSave": false
+  },
+  {% elif cookiecutter.formatter == 'latexindent' %}
+  "latex-workshop.formatting.latex": "latexindent",
+  {% endif %}
+  {% if cookiecutter.linter == 'ChkTeX' %}
+  "latex-workshop.linting.chktex.enabled": true,
+  {% endif %}
+  "latex-workshop.latex.recipes": [
+    {
+      "name": "make 🔃",
+      "tools": [
+        "make"
+      ]
+    }
+  ],
+  "latex-workshop.latex.tools": [
+    {
+      "name": "make",
+      "command": "make",
+      "args": [
+        "-C",
+        "%DIR%",
+        "%DOCFILE%.pdf"
+      ]
+    }
+  ],
+  "makefile.configureOnOpen": false
+}

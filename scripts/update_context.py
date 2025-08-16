@@ -4,7 +4,6 @@
 exec python3 "$0" "$@"
 """
 
-
 from __future__ import annotations
 
 import re
@@ -13,7 +12,7 @@ from pathlib import Path
 from typing import Sequence
 from urllib.request import urlopen
 
-__doc__ = """Update the cookiecutter context variables."""  # noqa: A001
+__doc__ = """Update the cookiecutter context variables."""
 
 KAKENHI_LATEX_URL = "http://osksn2.hep.sci.osaka-u.ac.jp/~taku/kakenhiLaTeX/"
 
@@ -107,7 +106,7 @@ def update_context(filename: str, doc_types: Sequence[DocumentType]) -> None:
                     output_lines.append(f"{indentation}],")
 
     if input_lines != output_lines:
-        print(f"update {path}")
+        print(f"update {path}")  # noqa: T201
         path.write_text("\n".join(output_lines) + "\n")
 
 

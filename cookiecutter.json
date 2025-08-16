@@ -27,5 +27,28 @@
     "2025_fall/kokusai_kyoudou [20250714] (utf/sjis/euc, single/multi)",
     "2025_fall/kikoku [20250714] (utf/sjis/euc, single/multi)"
   ],
-  "_makefile_version": "0.11.1"
+  "editor": [
+    "VS Code with LaTeX Workshop extension",
+    "Not specified"
+  ],
+  "formatter": [
+    "latexindent",
+    "None"
+  ],
+  "linter": [
+    "ChkTeX",
+    "None"
+  ],
+  "_makefile_version": "0.11.1",
+  "_jinja2_env_vars": {
+    "lstrip_blocks": true,
+    "trim_blocks": true
+  },
+  "__prompts__": {
+    "directory_name": "Select your project directory name",
+    "document_name": "Select the main LaTeX file name (without .tex)",
+    "editor": "Select your preferred editor for editing LaTeX files",
+    "formatter": "Select your preferred formatter for LaTeX files",
+    "linter": "Select your preferred linter for LaTeX files"
+  }
 }

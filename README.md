@@ -8,6 +8,8 @@ meets
 [科研費LaTeX](https://osksn2.hep.sci.osaka-u.ac.jp/~taku/kakenhiLaTeX/)での申請書作成を[Cookiecutter](https://github.com/cookiecutter/cookiecutter)で簡単に始めましょう。
 
 
+This template requires Cookiecutter 2.1.0 or later.
+
 Usage
 -----
 
@@ -17,10 +19,15 @@ cd <directory_name>
 make
 ```
 
+Configuration Notes
+-------------------
+
 The default `.chktexrc` in this template ignores the following warnings:
 - All warnings found in the preamble (`-H0`).
 - Warning 1: Command terminated with space for `\itshape` (`Silent` section).
     * [TeX - LaTeX Stack Exchange: Why does ChkTeX complain when there is a space after \itshape but not when \bfseries is used?](https://tex.stackexchange.com/q/627808)
+
+  Other commands are also listed in the `Silent` section.
 - Warning 3: You should enclose the previous parenthesis with '{}' (`-n3`).
     * [TeX - LaTeX Stack Exchange: Why should I "enclose the previous parenthesis with '{}'"?](https://tex.stackexchange.com/a/529940)
 - Warning 8: Wrong length of dash may have been used (`-n8`).
