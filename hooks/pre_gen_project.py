@@ -1,4 +1,4 @@
-"""Script to be run after generating the project."""
+"""Script to run before the template process."""
 
 import os
 import os.path
