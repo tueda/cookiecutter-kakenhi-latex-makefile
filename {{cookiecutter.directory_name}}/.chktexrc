@@ -1,12 +1,16 @@
 CmdLine
 {
-    -H0 -n3 -n8 -n24 -n38
+  -H0 -n3 -n8 -n24 -n38
 }
 Silent
 {
-    \backmatter
-    \columnbreak
-    \itshape
-    \mainmatter
-    \tikz
+  \backmatter
+  \columnbreak
+  \itshape
+  \mainmatter
+  \makeglossaries
+  \printbibliography
+  \printglossaries
+  \printunsrtglossaries
+  \tikz
 }

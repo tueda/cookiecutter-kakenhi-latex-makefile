@@ -31,6 +31,12 @@
     "VS Code with LaTeX Workshop extension",
     "Not specified"
   ],
+  "indent": [
+    "2 spaces",
+    "4 spaces",
+    "8 spaces",
+    "Tab"
+  ],
   "formatter": [
     "latexindent",
     "None"
@@ -39,16 +45,22 @@
     "ChkTeX",
     "None"
   ],
-  "_makefile_version": "0.11.1",
+  "_makefile_version": "0.12.0",
   "_jinja2_env_vars": {
     "lstrip_blocks": true,
     "trim_blocks": true
   },
+  "_extensions": [
+    "local_extensions.indent_string",
+    "local_extensions.indent_editorconfig",
+    "local_extensions.indent_vscode"
+  ],
   "__prompts__": {
     "directory_name": "Select your project directory name",
     "document_name": "Select the main LaTeX file name (without .tex)",
-    "editor": "Select your preferred editor for editing LaTeX files",
-    "formatter": "Select your preferred formatter for LaTeX files",
-    "linter": "Select your preferred linter for LaTeX files"
+    "editor": "Select your preferred LaTeX editor",
+    "indent": "Select your preferred indentation style",
+    "formatter": "Select your preferred LaTeX formatter",
+    "linter": "Select your preferred LaTeX linter"
   }
 }

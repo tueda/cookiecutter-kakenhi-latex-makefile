@@ -1,50 +1,69 @@
 """Scripts to run after the project generation."""
 
-try:
-    from typing import TYPE_CHECKING
-except ImportError:
-    TYPE_CHECKING = False  # type: ignore[misc]
+from __future__ import annotations
 
-if TYPE_CHECKING:
-    from typing import Optional  # noqa: F401
-
+import json
 import os
 import shutil
 import subprocess
-
-if "which" not in dir(shutil):
-    # Simplified implementation of shutil.which() for Python < 3.3.
-    # https://stackoverflow.com/a/9877856
-    def __which(cmd):
-        # type: (str) -> Optional[str]
-        path = os.getenv("PATH")
-        if path is None:
-            return None
-
-        for p in path.split(os.path.pathsep):
-            cmd_path = os.path.join(p, cmd)
-            if os.path.exists(cmd_path) and os.access(cmd_path, os.X_OK):
-                return cmd_path
-
-        return None
-
-    shutil.which = __which  # type: ignore[assignment]
+from pathlib import Path
 
 
-def remove_if(path, cond):
-    # type: (str, bool) -> None
+def remove_if(path: str | Path, cond: bool) -> None:  # noqa: FBT001
     """Remove the file/directory if the condition is met."""
+    path = Path(path)
     if cond:
-        if os.path.isfile(path):
-            os.remove(path)
-        elif os.path.isdir(path):
+        if path.is_file() or path.is_symlink():
+            path.unlink()
+        elif path.is_dir():
             shutil.rmtree(path)
 
 
-def run_git(*args):
-    # type: (*str) -> None
+def run_git(*args: str) -> None:
     """Run a Git command with the given arguments."""
     subprocess.call(["git", *args])  # noqa: S603, S607
+
+
+def format_json(file: str | Path, indent: str | int = 4) -> None:
+    """Format a JSON file."""
+    with Path(file).open("r+", encoding="utf-8") as f:
+        data = json.load(f)
+        f.seek(0)
+        json.dump(data, f, ensure_ascii=False, indent=indent, sort_keys=True)
+        f.truncate()
+
+
+def reindent_file(file: str | Path, indent: str | int = 4, tabsize: int = 8) -> None:
+    """Reindent a file."""
+    if isinstance(indent, int):
+        indent = " " * indent
+
+    with Path(file).open("r+", encoding="utf-8") as f:
+        output_lines = []
+        indent_stack = [0]
+
+        for line in f.read().splitlines():
+            stripped_line = line.lstrip()
+            if not stripped_line:
+                output_lines.append("")
+                continue
+
+            leading_whitespace = line[: len(line) - len(stripped_line)]
+            current_columns = len(leading_whitespace.expandtabs(tabsize))
+
+            while current_columns < indent_stack[-1]:
+                indent_stack.pop()
+
+            if current_columns > indent_stack[-1]:
+                indent_stack.append(current_columns)
+
+            level = len(indent_stack) - 1
+
+            output_lines.append(indent * level + stripped_line)
+
+        f.seek(0)
+        f.write("\n".join(output_lines) + "\n")
+        f.truncate()
 
 
 # Remove the .jinja file extension from all template files.
@@ -52,20 +71,31 @@ def run_git(*args):
 for path, _, files in os.walk("."):
     for name in files:
         if name.endswith(".jinja"):
-            os.rename(
-                os.path.join(path, name),
-                os.path.join(path, name[: -len(".jinja")]),
-            )
+            old_path = Path(path) / name
+            new_path = Path(path) / name[: -len(".jinja")]
+            old_path.rename(new_path)
+
+# User preferences.
+
+use_vscode = "VS Code" in "{{ cookiecutter.editor }}"  # noqa: PLR0133
+use_latexindent = "latexindent" in "{{ cookiecutter.formatter }}"  # noqa: PLR0133
+use_chktex = "ChkTeX" in "{{ cookiecutter.linter }}"  # noqa: PLR0133
+indent = "{{ cookiecutter.indent }}"
+indent = " " * int(indent.split()[0]) if "spaces" in indent else "\t"
 
 # Remove tool-specific config files based on user selection.
-
-use_vscode = "VS Code" in "{{cookiecutter.editor}}"  # noqa: PLR0133
-use_latexindent = "latexindent" in "{{cookiecutter.formatter}}"  # noqa: PLR0133
-use_chktex = "ChkTeX" in "{{cookiecutter.linter}}"  # noqa: PLR0133
 
 remove_if(".vscode", not use_vscode)
 remove_if(".latexindent.yaml", not use_latexindent)
 remove_if(".chktexrc", not use_chktex)
+
+# Run formatters.
+
+if use_vscode:
+    format_json(".vscode/settings.json", indent)
+
+if use_chktex:
+    reindent_file(".chktexrc", indent)
 
 # Initialize a Git repository and add all files.
 
@@ -87,5 +117,5 @@ if shutil.which("git"):
                 )
             ):
                 continue
-            run_git("add", "-f", os.path.join(dirpath, f))
+            run_git("add", "-f", str(Path(dirpath) / f))
     print("Git repository initialized. Files have been staged for commit.")  # noqa: T201

@@ -6,9 +6,37 @@
   {% elif cookiecutter.formatter == 'latexindent' %}
   "latex-workshop.formatting.latex": "latexindent",
   {% endif %}
+
   {% if cookiecutter.linter == 'ChkTeX' %}
   "latex-workshop.linting.chktex.enabled": true,
+  "latex-workshop.linting.chktex.exec.args": [],
   {% endif %}
+
+  "files.eol": "\n",
+  "files.insertFinalNewline": true,
+  "files.trimTrailingWhitespace": true,
+
+  "[bibtex]": {
+    {{ cookiecutter.indent | indent_vscode }}
+  },
+  "[latex]": {
+    {{ cookiecutter.indent | indent_vscode }}
+  },
+  "[json]": {
+    {{ cookiecutter.indent | indent_vscode }}
+  },
+  "[yaml]": {
+    {{ cookiecutter.indent | indent_vscode }}
+  },
+
+  "[makefile]": {
+    "editor.insertSpaces": false
+  },
+
+  "files.associations": {
+    "*.mk": "makefile"
+  },
+
   "latex-workshop.latex.recipes": [
     {
       "name": "make 🔃",
@@ -24,6 +52,7 @@
       "args": [
         "-C",
         "%DIR%",
+        "USE_LATEX_WORKSHOP=1",
         "%DOCFILE%.pdf"
       ]
     }

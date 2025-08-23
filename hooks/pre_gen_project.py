@@ -1,8 +1,9 @@
 """Script to run before the template process."""
 
-import os
-import os.path
+from __future__ import annotations
+
 import shutil
+from pathlib import Path
 
 from cookiecutter.config import get_user_config
 from cookiecutter.zipfile import unzip
@@ -21,16 +22,16 @@ zip_url = f"http://osksn2.hep.sci.osaka-u.ac.jp/~taku/kakenhiLaTeX/{doc_type}_{d
 
 config_dict = get_user_config()
 tempdir = unzip(zip_url, is_url=True, clone_to_dir=config_dict["cookiecutters_dir"])
-for f in os.listdir(tempdir):
-    src = os.path.join(tempdir, f)
-    dest = os.path.join(".", f)
-    if os.path.isdir(src):
+for f in Path(tempdir).iterdir():
+    src = Path(tempdir) / f
+    dest = Path(f)
+    if src.is_dir():
         shutil.copytree(src, dest)
     else:
         shutil.copy2(src, dest)
 
 
-def comment_out(line, disabled=True):  # type: (str, bool) -> str  # noqa: FBT002
+def comment_out(line: str, disabled: bool = True) -> str:  # noqa: FBT001, FBT002
     """Comment out or uncomment the given line."""
     if disabled:
         if line[:1] != "%":
@@ -41,9 +42,10 @@ def comment_out(line, disabled=True):  # type: (str, bool) -> str  # noqa: FBT00
     return line
 
 
-def patch_tex_file(filename):  # type: (str) -> None
+def patch_tex_file(file: str | Path) -> None:
     """Patch the TeX file."""
-    with open(filename) as f:
+    path = Path(file)
+    with path.open() as f:
         input_lines = f.read().splitlines()
 
     output_lines = []
@@ -52,17 +54,17 @@ def patch_tex_file(filename):  # type: (str) -> None
             new_line = comment_out(line, not use_platex)
         elif "for uplatex" in line:
             new_line = comment_out(line, not use_uplatex)
-        elif "only for demonstration" in line and "egg" not in filename:
+        elif "only for demonstration" in line and "egg" not in path.name:
             new_line = comment_out(line)
         else:
             new_line = line
         output_lines.append(new_line)
 
     if input_lines != output_lines:
-        with open(filename, "w") as f:
+        with path.open("w") as f:
             f.write("\n".join(output_lines) + "\n")
 
 
-for f in os.listdir("."):
-    if os.path.isfile(f) and f.endswith(".tex"):
+for f in Path().iterdir():
+    if f.is_file() and f.name.endswith(".tex"):
         patch_tex_file(f)
