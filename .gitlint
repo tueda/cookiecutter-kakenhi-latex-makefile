@@ -9,7 +9,7 @@ line-length=80
 line-length=80
 
 [ignore-by-title]
-regex=^Merge(.*)into(.*)
+regex=^Merge
 
 [contrib-title-conventional-commits]
 types = build,chore,ci,docs,feat,fix,perf,refactor,revert,style,test
