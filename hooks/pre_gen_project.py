@@ -23,8 +23,8 @@ zip_url = f"http://osksn2.hep.sci.osaka-u.ac.jp/~taku/kakenhiLaTeX/{doc_type}_{d
 config_dict = get_user_config()
 tempdir = unzip(zip_url, is_url=True, clone_to_dir=config_dict["cookiecutters_dir"])
 for f in Path(tempdir).iterdir():
-    src = Path(tempdir) / f
-    dest = Path(f)
+    src = f
+    dest = Path(f.name)
     if src.is_dir():
         shutil.copytree(src, dest)
     else:
