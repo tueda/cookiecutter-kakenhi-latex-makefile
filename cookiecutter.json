@@ -45,7 +45,7 @@
     "ChkTeX",
     "None"
   ],
-  "_makefile_version": "0.12.0",
+  "_makefile_version": "0.13.0",
   "_jinja2_env_vars": {
     "lstrip_blocks": true,
     "trim_blocks": true
