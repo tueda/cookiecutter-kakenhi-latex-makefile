@@ -5,6 +5,13 @@
   },
   {% elif cookiecutter.formatter == 'latexindent' %}
   "latex-workshop.formatting.latex": "latexindent",
+  "latex-workshop.formatting.latexindent.args": [
+    "-c",
+    "%DIR%/",
+    "-l",
+    "%TMPFILE%",
+    "-y=defaultIndent: '%INDENT%'"
+  ],
   {% endif %}
 
   {% if cookiecutter.linter == 'ChkTeX' %}
