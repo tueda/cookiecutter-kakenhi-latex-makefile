@@ -12,16 +12,16 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout the repository
-        uses: actions/checkout@v4
+        uses: actions/checkout@v5
 
       - name: Check for updates
         run: ./scripts/update_context.py
 
       - name: Get current date
-        run: echo "CURRENT_DATE=$(date +'%Y-%m-%d')" >> $GITHUB_ENV
+        run: echo "CURRENT_DATE=$(date +'%Y-%m-%d')" >>$GITHUB_ENV
 
       - name: Create Pull Request
-        uses: peter-evans/create-pull-request@v6
+        uses: peter-evans/create-pull-request@v7
         with:
           branch: create-pull-request/check-update
           delete-branch: true
@@ -31,3 +31,32 @@ jobs:
             chore: update document_type (${{ env.CURRENT_DATE }})
           title: |
             [create-pull-request] chore: update document_type (${{ env.CURRENT_DATE }})
+
+  merge-upstream:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout the repository
+        uses: actions/checkout@v5
+        with:
+          fetch-depth: 0
+
+      - name: Merge upstream
+        run: |
+          git config --global user.name "github-actions[bot]"
+          git config --global user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git remote add upstream https://github.com/tueda/cookiecutter-latex-makefile.git
+          git fetch upstream
+          upstream_hash=$(git rev-parse --short upstream/main)
+          echo "UPSTREAM_HASH=$upstream_hash" >>$GITHUB_ENV
+          git merge upstream/main \
+            -m "Merge upstream 'tueda/cookiecutter-latex-makefile'" \
+            -m "" \
+            -m "tueda/cookiecutter-latex-makefile@$upstream_hash"
+
+      - name: Create Pull Request
+        uses: peter-evans/create-pull-request@v7
+        with:
+          branch: create-pull-request/merge-upstream
+          delete-branch: true
+          title: |
+            [create-pull-request] chore: merge upstream (${{ env.UPSTREAM_HASH }})
