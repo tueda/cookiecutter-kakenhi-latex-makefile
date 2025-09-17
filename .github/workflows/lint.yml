@@ -12,17 +12,17 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout the repository
-        uses: actions/checkout@v4
+        uses: actions/checkout@v5
 
       # for pip cache
       - name: Create requirements.txt
-        uses: 1arp/create-a-file-action@0.3
+        uses: 1arp/create-a-file-action@0.4.5
         with:
           file: "requirements.txt"
           content: "gitlint"
 
       - name: Set up Python
-        uses: actions/setup-python@v4
+        uses: actions/setup-python@v6
         with:
           python-version: "3.11"
           cache: "pip"
@@ -37,20 +37,20 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout the repository
-        uses: actions/checkout@v4
+        uses: actions/checkout@v5
 
       # for pip cache
       - name: Create requirements.txt
-        uses: 1arp/create-a-file-action@0.3
+        uses: 1arp/create-a-file-action@0.4.5
         with:
           file: "requirements.txt"
           content: "pre-commit"
 
       - name: Set up Python
-        uses: actions/setup-python@v4
+        uses: actions/setup-python@v6
         with:
           python-version: "3.11"
           cache: "pip"
 
       - name: Run pre-commit
-        uses: pre-commit/action@v3.0.0
+        uses: pre-commit/action@v3.0.1
