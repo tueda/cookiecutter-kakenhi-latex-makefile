@@ -7,6 +7,15 @@ on:
     - cron: 0 15 * * *
   workflow_dispatch:
 
+permissions:
+  contents: write
+  pull-requests: write
+  issues: write
+
+concurrency:
+  group: check-update
+  cancel-in-progress: false
+
 jobs:
   check-update:
     runs-on: ubuntu-latest
@@ -17,10 +26,12 @@ jobs:
       - name: Check for updates
         run: ./scripts/update_context.py
 
-      - name: Get current date
-        run: echo "CURRENT_DATE=$(date +'%Y-%m-%d')" >>$GITHUB_ENV
+      - name: Get the current date
+        id: date
+        run: echo "current-date=$(date +'%Y-%m-%d')" >>"$GITHUB_OUTPUT"
 
-      - name: Create Pull Request
+      - name: Create a pull request
+        if: github.ref == 'refs/heads/main'
         uses: peter-evans/create-pull-request@v7
         with:
           branch: create-pull-request/check-update
@@ -28,9 +39,9 @@ jobs:
           committer: github-actions[bot] <41898282+github-actions[bot]@users.noreply.github.com>
           author: github-actions[bot] <41898282+github-actions[bot]@users.noreply.github.com>
           commit-message: |
-            chore: update document_type (${{ env.CURRENT_DATE }})
+            chore: update document_type (${{ steps.date.outputs.current-date }})
           title: |
-            [create-pull-request] chore: update document_type (${{ env.CURRENT_DATE }})
+            [create-pull-request] chore: update document_type (${{ steps.date.outputs.current-date }})
 
   merge-upstream:
     runs-on: ubuntu-latest
@@ -40,23 +51,134 @@ jobs:
         with:
           fetch-depth: 0
 
-      - name: Merge upstream
+      - name: Merge upstream changes
+        id: merge
         run: |
           git config --global user.name "github-actions[bot]"
           git config --global user.email "41898282+github-actions[bot]@users.noreply.github.com"
           git remote add upstream https://github.com/tueda/cookiecutter-latex-makefile.git
           git fetch upstream
           upstream_hash=$(git rev-parse --short upstream/main)
-          echo "UPSTREAM_HASH=$upstream_hash" >>$GITHUB_ENV
-          git merge upstream/main \
+          echo "upstream-hash=$upstream_hash" >>"$GITHUB_OUTPUT"
+          if git merge upstream/main \
             -m "Merge upstream 'tueda/cookiecutter-latex-makefile'" \
             -m "" \
-            -m "tueda/cookiecutter-latex-makefile@$upstream_hash"
+            -m "tueda/cookiecutter-latex-makefile@$upstream_hash"; then
+            echo "conflict=false" >>"$GITHUB_OUTPUT"
+          else
+            echo "conflict=true" >>"$GITHUB_OUTPUT"
+            {
+              echo "### Merge conflict when merging tueda/cookiecutter-latex-makefile@$upstream_hash"
+              echo
+              echo '#### git status'
+              echo
+              echo '~~~~~~~~'
+              git status
+              echo '~~~~~~~~'
+              echo
+              echo '#### git diff'
+              echo
+              echo '~~~~~~~~diff'
+              # Note: GitHub Markdown does not support combined diff.
+              git diff main
+              echo '~~~~~~~~'
+            }  >/tmp/conflict_issue.md
+            git merge --abort
+          fi
 
-      - name: Create Pull Request
+      - name: Create a pull request
+        if: github.ref == 'refs/heads/main'
         uses: peter-evans/create-pull-request@v7
         with:
           branch: create-pull-request/merge-upstream
           delete-branch: true
           title: |
-            [create-pull-request] chore: merge upstream (${{ env.UPSTREAM_HASH }})
+            [create-pull-request] chore: merge upstream (${{ steps.merge.outputs.upstream-hash }})
+
+      - name: Find existing issues
+        if: steps.merge.outputs.conflict == 'true'
+        id: find-issues
+        uses: actions-cool/issues-helper@v3
+        with:
+          actions: find-issues
+          title-includes: Merge conflicts from upstream
+          show-thanks: false
+
+      - name: Check for existing issues
+        id: check-issues
+        if: steps.merge.outputs.conflict == 'true'
+        run: |
+          issues_json=$(cat <<'__CHECK_UPDATE_HEREDOC__'
+          ${{ steps.find-issues.outputs.issues }}
+          __CHECK_UPDATE_HEREDOC__
+          )
+          if jq -e 'length==0' <<<"$issues_json" >/dev/null; then
+            echo "issue-number=0" >>"$GITHUB_OUTPUT"
+          else
+            last_number=$(jq -r '.[-1].number' <<<"$issues_json")
+            echo "issue-number=$last_number" >>"$GITHUB_OUTPUT"
+          fi
+
+      - name: Create an issue
+        if: >-
+          steps.merge.outputs.conflict == 'true'
+          && steps.check-issues.outputs.issue-number == '0'
+          && github.ref == 'refs/heads/main'
+        uses: peter-evans/create-issue-from-file@v5
+        with:
+          title: Merge conflicts from upstream
+          content-filepath: /tmp/conflict_issue.md
+
+      - name: Get the current issue body
+        id: get-issue
+        if: >-
+          steps.merge.outputs.conflict == 'true'
+          && steps.check-issues.outputs.issue-number != '0'
+        uses: actions/github-script@v8
+        with:
+          result-encoding: string
+          script: |
+            const issue_number = ${{ steps.check-issues.outputs.issue-number }};
+            const { data: issue } = await github.rest.issues.get({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              issue_number: issue_number,
+            });
+            return issue.body
+
+      - name: Check if the issue body changed
+        id: need-update
+        if: >-
+          steps.merge.outputs.conflict == 'true'
+          && steps.check-issues.outputs.issue-number != '0'
+        run: |
+          old=/tmp/old_issue.md
+          new=/tmp/conflict_issue.md
+          cat <<'__CHECK_UPDATE_HEREDOC__' >"$old"
+          ${{ steps.get-issue.outputs.result }}
+          __CHECK_UPDATE_HEREDOC__
+
+          if diff -u -b -w "$old" "$new"; then
+            echo "changed=false" >>"$GITHUB_OUTPUT"
+          else
+            echo "changed=true" >>"$GITHUB_OUTPUT"
+          fi
+
+      - name: Update the issue body
+        if: >-
+          steps.merge.outputs.conflict == 'true'
+          && steps.check-issues.outputs.issue-number != '0'
+          && steps.need-update.outputs.changed == 'true'
+          && github.ref == 'refs/heads/main'
+        uses: actions/github-script@v8
+        with:
+          script: |
+            const fs = require('fs');
+            const issue_number = ${{ steps.check-issues.outputs.issue-number }};
+            const body = fs.readFileSync('/tmp/conflict_issue.md', 'utf8');
+            await github.rest.issues.update({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              issue_number: issue_number,
+              body: body
+            });
