@@ -124,7 +124,7 @@ jobs:
           steps.merge.outputs.conflict == 'true'
           && steps.check-issues.outputs.issue-number == '0'
           && github.ref == 'refs/heads/main'
-        uses: peter-evans/create-issue-from-file@v5
+        uses: peter-evans/create-issue-from-file@v6
         with:
           title: Merge conflicts from upstream
           content-filepath: /tmp/conflict_issue.md
