@@ -17,7 +17,7 @@ concurrency:
   cancel-in-progress: false
 
 jobs:
-  check-update:
+  update-context:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout the repository
