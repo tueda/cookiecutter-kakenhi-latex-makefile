@@ -17,7 +17,12 @@
     "2025_fall/ilr-1 [20260109] (utf/sjis/euc, single/multi)",
     "2025_fall/ilr-2 [20260109] (utf/sjis/euc, single/multi)",
     "2025_fall/ilr-3 [20260109] (utf/sjis/euc, single/multi)",
-    "2025_fall/ilr-4 [20260109] (utf/sjis/euc, single/multi)"
+    "2025_fall/ilr-4 [20260109] (utf/sjis/euc, single/multi)",
+    "2026_spring/dc [20260216] (utf/sjis/euc, single/multi)",
+    "2026_spring/pd [20260216] (utf/sjis/euc, single/multi)",
+    "2026_spring/rpd [20260216] (utf/sjis/euc, single/multi)",
+    "2026_spring/orf [20260216] (utf/sjis/euc, single/multi)",
+    "2026_spring/rra [20260216] (utf/sjis/euc, single/multi)"
   ],
   "editor": [
     "VS Code with LaTeX Workshop extension",
