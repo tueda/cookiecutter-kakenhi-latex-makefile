@@ -22,7 +22,8 @@
     "2026_spring/pd [20260216] (utf/sjis/euc, single/multi)",
     "2026_spring/rpd [20260216] (utf/sjis/euc, single/multi)",
     "2026_spring/orf [20260216] (utf/sjis/euc, single/multi)",
-    "2026_spring/rra [20260216] (utf/sjis/euc, single/multi)"
+    "2026_spring/rra [20260216] (utf/sjis/euc, single/multi)",
+    "2026_spring/startup [20260302] (utf/sjis/euc, single/multi)"
   ],
   "editor": [
     "VS Code with LaTeX Workshop extension",
