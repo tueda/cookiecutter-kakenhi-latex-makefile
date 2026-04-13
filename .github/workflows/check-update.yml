@@ -134,7 +134,7 @@ jobs:
         if: >-
           steps.merge.outputs.conflict == 'true'
           && steps.check-issues.outputs.issue-number != '0'
-        uses: actions/github-script@v8
+        uses: actions/github-script@v9
         with:
           result-encoding: string
           script: |
@@ -170,7 +170,7 @@ jobs:
           && steps.check-issues.outputs.issue-number != '0'
           && steps.need-update.outputs.changed == 'true'
           && github.ref == 'refs/heads/main'
-        uses: actions/github-script@v8
+        uses: actions/github-script@v9
         with:
           script: |
             const fs = require('fs');
