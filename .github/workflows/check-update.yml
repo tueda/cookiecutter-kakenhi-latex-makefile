@@ -43,9 +43,10 @@ jobs:
           title: |
             [create-pull-request] chore: update document_type (${{ steps.date.outputs.current-date }})
 
-  merge-upstream:
+  check-upstream:
     runs-on: ubuntu-latest
     steps:
       - uses: tueda/check-upstream-action-dev@main
         with:
           upstream-repository: tueda/cookiecutter-latex-makefile
+          token: ${{ secrets.CHECK_UPSTREAM_TOKEN }}
