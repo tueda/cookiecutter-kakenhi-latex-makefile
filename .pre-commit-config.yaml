@@ -35,7 +35,7 @@ repos:
     -   id: mypy
         args: []
         additional_dependencies:
-        -   cookiecutter==2.6.0
+        -   cookiecutter==2.7.1
 
 -   repo: https://github.com/jorisroovers/gitlint
     rev: v0.19.1
