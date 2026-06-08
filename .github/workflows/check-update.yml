@@ -49,4 +49,4 @@ jobs:
       - uses: tueda/check-upstream-action-dev@main
         with:
           upstream-repository: tueda/cookiecutter-latex-makefile
-          token: ${{ secrets.CHECK_UPSTREAM_TOKEN }}
+          branch-token: ${{ secrets.CHECK_UPSTREAM_TOKEN }}
