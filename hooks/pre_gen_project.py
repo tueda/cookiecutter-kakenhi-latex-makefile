@@ -10,7 +10,7 @@ from cookiecutter.zipfile import unzip
 
 raw_doc_type = "{{cookiecutter.document_type}}"
 
-doc_type = raw_doc_type.split(" ")[0]
+doc_type = raw_doc_type.split(" ", maxsplit=1)[0]
 doc_date = raw_doc_type.split(" ")[1][1:-1]
 doc_enc = "{{cookiecutter.character_encoding}}"
 doc_fmt = "{{cookiecutter.format_type}}"
