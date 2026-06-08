@@ -81,7 +81,7 @@ use_vscode = "VS Code" in "{{ cookiecutter.editor }}"  # noqa: PLR0133
 use_latexindent = "latexindent" in "{{ cookiecutter.formatter }}"  # noqa: PLR0133
 use_chktex = "ChkTeX" in "{{ cookiecutter.linter }}"  # noqa: PLR0133
 indent = "{{ cookiecutter.indent }}"
-indent = " " * int(indent.split()[0]) if "spaces" in indent else "\t"
+indent = " " * int(indent.split(maxsplit=1)[0]) if "spaces" in indent else "\t"
 
 # Remove tool-specific config files based on user selection.
 
