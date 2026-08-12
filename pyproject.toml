@@ -18,6 +18,7 @@ ignore = [
     "D203",   # pydocstyle, one-blank-line-before-class, incompatible with D211
     "D213",   # pydocstyle, multi-line-summary-second-line, incompatible with D212
     "ISC001", # flake8-implicit-str-concat, single-line-implicit-string-concatenation, conflicts with formatter
+    "CPY001", # flake8-copyright, missing-copyright-notice
     "INP",    # flake8-no-pep420
     "EXE003", # flake8-executable, shebang-missing-python
 ]

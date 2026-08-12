@@ -111,7 +111,7 @@ def update_context(filename: str, doc_types: Sequence[DocumentType]) -> None:
 
 
 if __name__ == "__main__":
-    text = urlopen(KAKENHI_LATEX_URL).read().decode("utf-8")  # noqa: S310
+    text = urlopen(KAKENHI_LATEX_URL).read().decode("utf-8")
 
     # Remove comments tags.
     text = re.sub(r"<!--.*?-->", "", text, flags=re.DOTALL)

@@ -18,14 +18,14 @@ repos:
     -   id: trailing-whitespace
 
 -   repo: https://github.com/astral-sh/ruff-pre-commit
-    rev: v0.15.22
+    rev: v0.16.1
     hooks:
     -   id: ruff
         args: [ --fix ]
     -   id: ruff-format
 
 -   repo: https://github.com/editorconfig-checker/editorconfig-checker.python
-    rev: 3.6.1
+    rev: 3.8.0
     hooks:
     -   id: editorconfig-checker
 
